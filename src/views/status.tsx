@@ -15,12 +15,18 @@ export function StatusBoard({ status }: { status: Status }) {
         </tbody>
       </table>
       <h2>nights on disk</h2>
-      {status.nights.length === 0 ? (
+      {status.summaries.length === 0 ? (
         <p class="mute">nothing in runs/</p>
       ) : (
         <ul>
-          {status.nights.map((n) => (
-            <li>{n}</li>
+          {status.summaries.map((s) => (
+            <li key={s.night}>
+              <a href={`/digest/${s.night}`}>{s.night}</a>{' '}
+              <span class="mute">
+                {s.counts.ok} ok · {s.counts.retry} retry ·{' '}
+                <span class={s.counts.fail > 0 ? 'warn' : ''}>{s.counts.fail} fail</span>
+              </span>
+            </li>
           ))}
         </ul>
       )}
